@@ -41,7 +41,7 @@ private
 
 private
   def operation!(operation_class, options={}) # or #model or #setup.
-    operation_for!(operation_class, options) { |params| [true, operation_class.build_operation(params)] }
+    operation_for!(operation_class, options) { |params| [true, operation_class.present(params)] }
   end
 
   def process_params!(params)

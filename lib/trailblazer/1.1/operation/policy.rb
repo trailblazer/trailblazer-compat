@@ -5,23 +5,19 @@ module Trailblazer
   end
 
   # Adds #evaluate_policy to #setup!, and ::policy.
-  #
-  # Needs #[], #[]= skill dependency.
   module Operation::Policy
     def self.included(includer)
-      includer.include Operation::Setup
-      includer.include Setup
       includer.extend DSL
-
-              includer.extend Declarative::Heritage::Inherited
-        includer.extend Declarative::Heritage::DSL
     end
 
     module DSL
-      def policy(*args, &block)
-        heritage.record(:policy, *args, &block)
+      def self.extended(extender)
+        extender.inheritable_attr :policy_config
+        extender.policy_config = lambda { |*| true } # return true per default.
+      end
 
-        self["policy.evaluator"] = permission_class.new(*args, &block)
+      def policy(*args, &block)
+        self.policy_config = permission_class.new(*args, &block)
       end
 
       def permission_class
@@ -29,24 +25,20 @@ module Trailblazer
       end
     end
 
-    def policy
-      self["policy"]
-    end
+    attr_reader :policy
 
   private
     module Setup
-      # DISCUSS: this will be movable in TRB-pipetree.
       def setup!(params)
         evaluate_policy(super)
       end
     end
+    include Setup
 
     def evaluate_policy(params)
-      user = params[:current_user] # FIXME: this must be a competence.
+      user = params[:current_user]
 
-      return true unless self["policy.evaluator"] # TODO: this could be handled nicer.
-
-      self["policy"] = self["policy.evaluator"].(user, model, self["policy"]) do |policy, action|
+      @policy = self.class.policy_config.(user, model, @policy) do |policy, action|
         raise policy_exception(policy, action, model)
       end
     end

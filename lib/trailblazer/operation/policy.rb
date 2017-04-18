@@ -1,1 +1,0 @@
-../compat/1.1/policy.rb
