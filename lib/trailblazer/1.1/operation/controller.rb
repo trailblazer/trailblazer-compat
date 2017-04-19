@@ -58,7 +58,7 @@ private
     params = params!(params)
     process_params!(params) # deprecate or rename to #setup_params!
 
-    res, op = Trailblazer::Endpoint.new(operation_class, params, request, options).(&block)
+    res, op = Trailblazer::V1_1::Endpoint.new(operation_class, params, request, options).(&block)
     setup_operation_instance_variables!(op, options)
 
     [res, op, options.merge(params: params)]
