@@ -1,7 +1,7 @@
-require "trailblazer/operation/model/external"
-require "trailblazer/operation/policy"
+require "trailblazer/1.1/operation/model/external"
+require "trailblazer/1.1/operation/policy"
 
-class Trailblazer::Operation
+class Trailblazer::V1_1::Operation
   # Provides builds-> (model, policy, params).
   module Resolver
     def self.included(includer)

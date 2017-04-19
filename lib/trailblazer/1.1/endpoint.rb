@@ -1,4 +1,4 @@
-module Trailblazer
+module Trailblazer::V1_1
   # Encapsulates HTTP-specific logic needed before running an operation.
   # Right now, all this does is #document_body! which figures out whether or not to pass the request body
   # into params, so the operation can use a representer to deserialize the original document.

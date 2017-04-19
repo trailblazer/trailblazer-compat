@@ -1,4 +1,4 @@
-module Trailblazer
+module Trailblazer::V1_1
   # Policy::Guard is a very simple policy implementation.
   # It adds #evaluate_policy to Operation#setup! and calls whatever
   # you provided to ::policy.

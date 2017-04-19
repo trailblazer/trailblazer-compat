@@ -1,3 +1,3 @@
-require "trailblazer/operation/callback"
+require "trailblazer/1.1/operation/callback"
 # TODO: deprecate this module.
-Trailblazer::Operation::Dispatch = Trailblazer::Operation::Callback
+Trailblazer::V1_1::Operation::Dispatch = Trailblazer::V1_1::Operation::Callback

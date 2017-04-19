@@ -1,6 +1,6 @@
-require "trailblazer/operation/policy/guard"
+require "trailblazer/1.1/operation/policy/guard"
 
-module Trailblazer
+module Trailblazer::V1_1
   class NotAuthorizedError < RuntimeError
   end
 

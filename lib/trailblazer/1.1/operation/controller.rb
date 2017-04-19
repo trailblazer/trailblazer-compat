@@ -1,6 +1,6 @@
-require "trailblazer/endpoint"
+require "trailblazer/1.1/endpoint"
 
-module Trailblazer::Operation::Controller
+module Trailblazer::V1_1::Operation::Controller
 private
   def form(operation_class, options={})
     res, op, options = operation!(operation_class, options)

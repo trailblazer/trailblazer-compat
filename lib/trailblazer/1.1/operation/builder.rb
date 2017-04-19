@@ -1,7 +1,7 @@
 require "uber/builder"
 
 # Allows to add builders via ::builds.
-module Trailblazer::Operation::Builder
+module Trailblazer::V1_1::Operation::Builder
   def self.extended(extender)
     extender.send(:include, Uber::Builder)
   end

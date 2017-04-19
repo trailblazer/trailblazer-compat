@@ -1,7 +1,7 @@
 require "declarative"
 require "disposable/callback"
 
-module Trailblazer::Operation::Callback
+module Trailblazer::V1_1::Operation::Callback
   def self.included(base)
     base.extend ClassMethods
 

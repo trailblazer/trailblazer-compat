@@ -1,8 +1,8 @@
 require "reform"
 
-module Trailblazer
+module Trailblazer::V1_1
   class Operation
-    require "trailblazer/operation/builder"
+    require "trailblazer/1.1/operation/builder"
     extend Builder # imports ::builder_class and ::build_operation.
 
     extend Uber::InheritableAttr

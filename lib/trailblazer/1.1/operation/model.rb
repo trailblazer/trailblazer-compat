@@ -1,6 +1,6 @@
-require "trailblazer/operation/model/dsl"
+require "trailblazer/1.1/operation/model/dsl"
 
-module Trailblazer
+module Trailblazer::V1_1
   class Operation
     # The Model module will automatically create/find models for the configured +action+.
     # It adds a public  +Operation#model+ reader to access the model (after performing).

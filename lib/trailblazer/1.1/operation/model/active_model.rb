@@ -1,4 +1,4 @@
-module Trailblazer
+module Trailblazer::V1_1
   module Operation::Model
     # Automatically set model_name on operation's contract.
     module ActiveModel

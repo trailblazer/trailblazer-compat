@@ -2,9 +2,9 @@
 #
 # THIS MODULE IS DEPRECATED!
 #
-# Please don't use this module. Instead, use @model in your controller or pass the 
+# Please don't use this module. Instead, use @model in your controller or pass the
 # operation instance to a cell to present it.
-module Trailblazer::Operation::Controller::ActiveRecord
+module Trailblazer::V1_1::Operation::Controller::ActiveRecord
 private
   def setup_operation_instance_variables!(operation, options)
     super

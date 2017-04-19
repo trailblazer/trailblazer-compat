@@ -1,7 +1,7 @@
 require "rails/railtie"
 require "trailblazer/loader"
 
-module Trailblazer
+module Trailblazer::V1_1
   class Railtie < ::Rails::Railtie
     def self.load_concepts(app)
       # Loader.new.(insert: [ModelFile, before: Loader::AddConceptFiles]) { |file| require_dependency("#{app.root}/#{file}") }
@@ -13,12 +13,12 @@ module Trailblazer
     end
 
     def self.load_for(app)
-      Loader.new.(prepend: AllModelFiles, root: app.root) { |file| require_dependency(file) }
+      ::Trailblazer::Loader.new.(prepend: AllModelFiles, root: app.root) { |file| require_dependency(file) }
     end
 
     # This is to autoload Operation::Dispatch, etc. I'm simply assuming people find this helpful in Rails.
     initializer "trailblazer.library_autoloading" do
-      require "trailblazer/autoloading"
+      require "trailblazer/1.1/autoloading"
     end
 
     # thank you, http://stackoverflow.com/a/17573888/465070
@@ -26,7 +26,7 @@ module Trailblazer
       # the trb autoloading has to be run after initializers have been loaded, so we can tweak inclusion of features in
       # initializers.
       reloader_class.to_prepare do
-        Trailblazer::Railtie.load_concepts(app)
+        Trailblazer::V1_1::Railtie.load_concepts(app)
       end
     end
 

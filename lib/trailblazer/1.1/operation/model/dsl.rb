@@ -1,4 +1,4 @@
-class Trailblazer::Operation
+class Trailblazer::V1_1::Operation
   module Model
     # Imports ::model and ::action into an operation.
     module DSL

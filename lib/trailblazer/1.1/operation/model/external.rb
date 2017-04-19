@@ -1,6 +1,6 @@
-require "trailblazer/operation/model"
+require "trailblazer/1.1/operation/model"
 
-class Trailblazer::Operation
+class Trailblazer::V1_1::Operation
   module Model
     # Builds (finds or creates) the model _before_ the operation is instantiated.
     # Passes the model instance into the builder with the following signature.

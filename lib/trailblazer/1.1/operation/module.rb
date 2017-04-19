@@ -1,4 +1,4 @@
-module Trailblazer::Operation::Module
+module Trailblazer::V1_1::Operation::Module
   def self.included(base)
     base.extend ClassMethods
     base.extend Included

@@ -1,4 +1,4 @@
-module Trailblazer::Operation::Responder
+module Trailblazer::V1_1::Operation::Responder
   def self.included(base)
     base.extend ClassMethods
   end
