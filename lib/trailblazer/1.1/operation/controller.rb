@@ -12,6 +12,12 @@ private
   # Provides the operation instance, model and contract without running #process.
   # Returns the operation.
   def present(operation_class, options={})
+    put operation_class
+    if operation_class < Trailblazer::V2::Operation
+      warn "[Trailblazer] bla"
+
+    end
+
     res, op = operation!(operation_class, options.merge(skip_form: true))
     op
   end
