@@ -1,36 +1,76 @@
 # Trailblazer::Compat
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/trailblazer/compat`. To experiment with that code, run `bin/console` for an interactive prompt.
+This gem provides a seamless-er™ upgrade from TRB 1.1 to 2.x.
 
-TODO: Delete this and the text above, and describe your gem
+It allows to run both old TRB 1.1 operations along with new or refactored 2.x code in the same application, making it easier to upgrade operation code `step`-wise (no pun intended!) or add new TRB2 operations, workflows, etc. without having to change the old code.
 
 ## Installation
 
-Add this line to your application's Gemfile:
+Your exisiting application's `Gemfile` should point to the new `trailblazer` gem.
 
 ```ruby
-gem 'trailblazer-compat'
+gem "trailblazer", ">= 2.0.0"
+gem "trailblazer-compat"
 ```
 
-And then execute:
+In a Rails application, you also need to pull the 1.x line of the `trailblazer-rails` gem.
 
-    $ bundle
+```ruby
+gem "trailblazer-rails", ">= 1.0.0"
+```
 
-Or install it yourself as:
+## Upgrade Path / Overview
 
-    $ gem install trailblazer-compat
+The complete migration path is [documented here](http://trailblazer.to/gems/trailblazer/upgrading-1-to-2.html).
 
-## Usage
+1. You can keep old TRB1 operations.
 
-TODO: Write usage instructions here
+    ```ruby
+    # /app/concepts/song/create.rb
 
-## Development
+    class Song
+      class Create < Trailblazer::Operation
+        model Song, :create
+        policy Song::Policy, :admin?
 
-After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake test` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
+        contract do
+          property :id
+          # ...
+        end
 
-To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and tags, and push the `.gem` file to [rubygems.org](https://rubygems.org).
+        def process(params)
+          validate(params[:song]) do |form|
+            form.save
+          end
+        end
+      end
+    end
+    ```
+2. At any point, you can introduce new TRB2 operations or update old classes by inheriting from `Trailblazer::Operation.version(2)`.
 
-## Contributing
+    ```ruby
+    class Song
+      class Create < Trailblazer::Operation.version(2)
+        class Form < Reform::Form
+          property :id
+          # ...
+        end
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/trailblazer-compat.
+        class New < Trailblazer::Operation.version(2)
+          step Model( Song, :new )
+          step Policy::Pundit( Song::Policy, :admin? )
+          step Contract::Build( constant: Form )
+        end
 
+        step Nested(New)
+        step Contract::Validate( key: :admin )
+        step Contract::Persist()
+      end
+    end
+    ```
+
+3. Should you ever be finished updating your application, simply remove the `trailblazer-compat` gem from the `Gemfile`. You can then safely delete `.version(2)` across all files.
+
+## Developmen Status
+
+The `compat` gem tries to make the transition to newer versions as painless as possible. However, if you run into any problems specific to your application, please [don't hesitate to contact us](https://gitter.im/trailblazer/chat). Pull requests (even ugly hacks) are appreciated in this gem, and this gem only.

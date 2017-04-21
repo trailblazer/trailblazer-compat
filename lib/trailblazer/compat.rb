@@ -41,3 +41,10 @@ Trailblazer.send(:const_set, :Operation, Trailblazer::V1_1::Operation) # TRB::Op
 Trailblazer::NotAuthorizedError = Trailblazer::V1_1::NotAuthorizedError
 
 Trailblazer::Operation.extend(Trailblazer::Compat::Version)
+
+Trailblazer::V2::Operation::Nested.module_eval do
+  def self.nestable_object?(object)
+    # interestingly, with < we get a weird nil exception. bug in Ruby?
+    object.is_a?(Class) && object <= Trailblazer::V2::Operation
+  end
+end
