@@ -1,5 +1,5 @@
 module Trailblazer
   module Compat
-    VERSION = "1.1.2"
+    VERSION = "0.1.0"
   end
 end
