@@ -27,7 +27,6 @@ The complete migration path is [documented here](http://trailblazer.to/gems/trai
 
     ```ruby
     # /app/concepts/song/create.rb
-
     class Song
       class Create < Trailblazer::Operation
         model Song, :create
@@ -49,6 +48,7 @@ The complete migration path is [documented here](http://trailblazer.to/gems/trai
 2. At any point, you can introduce new TRB2 operations or update old classes by inheriting from `Trailblazer::Operation.version(2)`.
 
     ```ruby
+    # /app/concepts/song/create.rb
     class Song
       class Create < Trailblazer::Operation.version(2)
         class Form < Reform::Form
@@ -71,6 +71,6 @@ The complete migration path is [documented here](http://trailblazer.to/gems/trai
 
 3. Should you ever be finished updating your application, simply remove the `trailblazer-compat` gem from the `Gemfile`. You can then safely delete `.version(2)` across all files.
 
-## Developmen Status
+## Development Status
 
 The `compat` gem tries to make the transition to newer versions as painless as possible. However, if you run into any problems specific to your application, please [don't hesitate to contact us](https://gitter.im/trailblazer/chat). Pull requests (even ugly hacks) are appreciated in this gem, and this gem only.

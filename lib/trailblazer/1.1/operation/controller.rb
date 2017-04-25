@@ -3,6 +3,8 @@ require "trailblazer/1.1/endpoint"
 module Trailblazer::V1_1::Operation::Controller
 private
   def form(operation_class, options={})
+    run_v2_for(operation_class, options) and return
+
     res, op, options = operation!(operation_class, options)
     op.contract.prepopulate!(options) # equals to @form.prepopulate!
 
@@ -12,11 +14,7 @@ private
   # Provides the operation instance, model and contract without running #process.
   # Returns the operation.
   def present(operation_class, options={})
-    put operation_class
-    if operation_class < Trailblazer::V2::Operation
-      warn "[Trailblazer] bla"
-
-    end
+    run_v2_for(operation_class, options) and return
 
     res, op = operation!(operation_class, options.merge(skip_form: true))
     op
@@ -29,6 +27,8 @@ private
   end
 
   def run(operation_class, options={}, &block)
+    run_v2_for(operation_class, options, &block) and return
+
     res, op = operation_for!(operation_class, options) { |params| operation_class.run(params) }
 
     yield op if res and block_given?
@@ -74,5 +74,14 @@ private
     @operation = operation
     @model     = operation.model
     @form      = operation.contract unless options[:skip_form]
+  end
+
+  def run_v2_for(operation_class, *args, &block)
+    if operation_class < Trailblazer::V2::Operation
+      # run_v2(operation_class, *args)
+      run_v2(operation_class, &block)
+      return true
+    end
+    false
   end
 end
