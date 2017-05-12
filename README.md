@@ -9,7 +9,7 @@ It allows to run both old TRB 1.1 operations along with new or refactored 2.x co
 Your exisiting application's `Gemfile` should point to the new `trailblazer` gem.
 
 ```ruby
-gem "trailblazer", ">= 2.0.4"
+gem "trailblazer", ">= 2.0.6"
 gem "trailblazer-compat"
 ```
 
