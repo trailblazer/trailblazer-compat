@@ -1,4 +1,5 @@
 # Trailblazer::Compat
+[![Gem Version](https://badge.fury.io/rb/trailblazer-compat.svg)](https://badge.fury.io/rb/trailblazer-compat)
 
 This gem provides a seamless-er™ upgrade from TRB 1.1 to 2.x.
 

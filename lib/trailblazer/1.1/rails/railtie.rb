@@ -9,15 +9,16 @@ else
         require "trailblazer/1.1/autoloading"
       end
 
-      initializer "trailblazer.application_controller" do
+      initializer "trailblazer.application_controller" do |app|
         ActiveSupport.on_load(:action_controller) do
           require "trailblazer/rails/railtie"
           # this requires trailblazer-rails-1.0.0
           V2_Controller = Trailblazer::Rails::Controller
+          application_controller = app.config.trailblazer.application_controller.to_s.constantize
 
-          ActionController::Base.class_eval do
+          application_controller.class_eval do
             include V2_Controller # if Trailblazer::Operation.const_defined?(:Controller) # from V2.
-            alias run_v2 run
+            alias_method :run_v2, :run
             include Trailblazer::V1_1::Operation::Controller
           end
         end
