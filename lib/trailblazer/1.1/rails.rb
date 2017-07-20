@@ -19,3 +19,4 @@ end
 
 require "trailblazer/1.1/autoloading"
 require "trailblazer/1.1/rails/autoloading"
+

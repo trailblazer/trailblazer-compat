@@ -2,27 +2,39 @@ begin
   require 'rails/railtie'
 rescue LoadError
 else
+
   module Trailblazer::V1_1
     class Railtie < ::Rails::Railtie
-      # This is to autoload Operation::Dispatch, etc. I'm simply assuming people find this helpful in Rails.
-      initializer "trailblazer.library_autoloading" do
-        require "trailblazer/1.1/autoloading"
-      end
+      module ExtendApplicationController
+        def extend_application_controller!(app)
+          # this requires trailblazer-rails-1.0.3
+          application_controller = super
 
-      initializer "trailblazer.application_controller" do |app|
-        ActiveSupport.on_load(:action_controller) do
-          require "trailblazer/rails/railtie"
-          # this requires trailblazer-rails-1.0.0
-          V2_Controller = Trailblazer::Rails::Controller
-          application_controller = app.config.trailblazer.application_controller.to_s.constantize
+          v2_Controller = Trailblazer::Rails::Controller
 
           application_controller.class_eval do
-            include V2_Controller # if Trailblazer::Operation.const_defined?(:Controller) # from V2.
+            include v2_Controller # if Trailblazer::Operation.const_defined?(:Controller) # from V2.
             alias_method :run_v2, :run
             include Trailblazer::V1_1::Operation::Controller
           end
         end
       end
-    end
+
+
+      # This is to autoload Operation::Dispatch, etc. I'm simply assuming people find this helpful in Rails.
+      initializer "trailblazer.library_autoloading" do
+        require "trailblazer/1.1/autoloading"
+      end
+
+      initializer "trailblazer.application_controller.compat", before: "trailblazer.application_controller" do |app|
+        require "trailblazer/rails/railtie"
+
+        if Gem::Version.new(Trailblazer::Rails::VERSION) < Gem::Version.new("1.0.3")
+          raise "[Trailblazer-compat] Please update to trailblazer-rails 1.0.3 or above."
+        end
+
+        Trailblazer::Railtie.extend ExtendApplicationController
+      end
+    end # Railtie
   end
 end
