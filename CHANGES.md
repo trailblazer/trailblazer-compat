@@ -1,3 +1,7 @@
+# 0.1.2
+
+* Fix a circular dependency problem in some environments, when loading `ApplicationController`.
+
 # 0.1.1
 
 * Allow using `compat` without Rails.
