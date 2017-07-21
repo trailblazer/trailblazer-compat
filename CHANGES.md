@@ -1,6 +1,7 @@
 # 0.1.2
 
 * Fix a circular dependency problem in some environments, when loading `ApplicationController`.
+* `compat` now also supports TRB 2.1.
 
 # 0.1.1
 
