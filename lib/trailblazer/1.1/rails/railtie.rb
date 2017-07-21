@@ -29,8 +29,8 @@ else
       initializer "trailblazer.application_controller.compat", before: "trailblazer.application_controller" do |app|
         require "trailblazer/rails/railtie"
 
-        if Gem::Version.new(Trailblazer::Rails::VERSION) < Gem::Version.new("1.0.3")
-          raise "[Trailblazer-compat] Please update to trailblazer-rails 1.0.3 or above."
+        if Gem::Version.new(Trailblazer::Rails::VERSION) < Gem::Version.new("1.0.4")
+          raise "[Trailblazer-compat] Please update to trailblazer-rails 1.0.4 or above."
         end
 
         Trailblazer::Railtie.extend ExtendApplicationController
