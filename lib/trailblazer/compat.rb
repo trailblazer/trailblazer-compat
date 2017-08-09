@@ -32,7 +32,11 @@ require "trailblazer/operation/nested" # 2.x
 
 Trailblazer::V2::Operation = ::Trailblazer::Operation # copy TRB2 Operation constant to a safe place.
 
-require "trailblazer/1.1/rails"
+require "trailblazer/1.1/operation"
+require "trailblazer/1.1/operation/model"
+require "trailblazer/1.1/autoloading"
+
+require "trailblazer/1.1/rails" if defined?(Rails)
 
 Trailblazer.send(:remove_const, :Operation)
 Trailblazer.send(:const_set, :Operation, Trailblazer::V1_1::Operation) # TRB::Op is now TRB 1.1
