@@ -1,3 +1,7 @@
+# 0.1.3
+
+* `compat` now works in non-Rails projects, too. Thanks @pnomolos!
+
 # 0.1.2
 
 * Fix a circular dependency problem in some environments, when loading `ApplicationController`.
