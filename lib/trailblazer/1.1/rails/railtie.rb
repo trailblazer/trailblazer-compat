@@ -11,10 +11,12 @@ else
           application_controller = super
 
           v2_Controller = Trailblazer::Rails::Controller
+          v2_Controller.class_eval do
+            alias_method :run_v2, :run
+          end
 
           application_controller.class_eval do
             include v2_Controller # if Trailblazer::Operation.const_defined?(:Controller) # from V2.
-            alias_method :run_v2, :run
             include Trailblazer::V1_1::Operation::Controller
           end
         end
